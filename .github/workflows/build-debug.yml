@@ -44,6 +44,8 @@ jobs:
           ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/23.1.7779620
       - name: Get short Git hash
         run: echo "SHORT_GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - name: Apply patches
+        run: patch -p1 < patch.diff
       - name: Build debug apk
         run:  ./gradlew  --no-daemon assembleDebug -PversionName="ci-${SHORT_GIT_SHA}"
       - name: Upload non tags for debug purposes
