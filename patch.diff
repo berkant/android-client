@@ -1,0 +1,25 @@
+Submodule netbird contains modified content
+diff --git a/netbird/client/android/client.go b/netbird/client/android/client.go
+index c0524656..ac8b2c7a 100644
+--- a/netbird/client/android/client.go
++++ b/netbird/client/android/client.go
+@@ -6,6 +6,7 @@ import (
+ 	"context"
+ 	"slices"
+ 	"sync"
++	"os"
+ 
+ 	log "github.com/sirupsen/logrus"
+ 
+@@ -67,6 +68,11 @@ type Client struct {
+ 
+ // NewClient instantiate a new Client
+ func NewClient(cfgFile string, androidSDKVersion int, deviceName string, uiVersion string, tunAdapter TunAdapter, iFaceDiscover IFaceDiscover, networkChangeListener NetworkChangeListener) *Client {
++	os.Setenv("NB_ICE_DISCONNECTED_TIMEOUT_SEC", "25")
++	os.Setenv("NB_ICE_FAILED_TIMEOUT_SEC", "25")
++	os.Setenv("NB_ICE_FORCE_RELAY_CONN", "true")
++	// os.Setenv("NB_LOG_LEVEL", "trace")
++	
+ 	execWorkaround(androidSDKVersion)
+ 
+ 	net.SetAndroidProtectSocketFn(tunAdapter.ProtectSocket)
